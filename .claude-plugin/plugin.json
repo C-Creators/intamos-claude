@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "intamos",
+  "displayName": "intamos",
+  "version": "0.1.0",
+  "description": "Your intamos CRM inside Claude Code: Maggie as a subagent, three workflow skills, and the intamos connector — contacts, deals, pipeline, tickets, appointments, automations, prospects and knowledge base.",
+  "author": { "name": "intamos", "url": "https://intamos.com" },
+  "homepage": "https://intamos.com/workspace/settings/claude",
+  "repository": "https://github.com/C-Creators/intamos-claude",
+  "keywords": ["crm", "sales", "support", "pipeline", "mcp"],
+  "userConfig": {
+    "intamos_mcp_token": {
+      "type": "string",
+      "title": "intamos connector token",
+      "description": "Mint one at https://intamos.com/workspace/settings/claude — it starts with intamos_mcp_ and is shown once.",
+      "sensitive": true,
+      "required": true
+    }
+  }
+}
