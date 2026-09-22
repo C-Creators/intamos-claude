@@ -12,23 +12,34 @@ appointments, automations, prospects and knowledge base.
 
 ## Install
 
+Add the connector directly:
+
+```
+claude mcp add --transport http intamos https://intamos.com/api/mcp
+```
+
+or install the plugin:
+
 ```
 /plugin marketplace add C-Creators/intamos-claude
 /plugin install intamos@intamos
 ```
 
-Claude Code asks for your **intamos connector token** when it enables the
-plugin. Mint one at <https://intamos.com/workspace/settings/claude>: choose a
-label and the scopes, copy the token — it starts with `intamos_mcp_` and is
-shown once.
+Either way, there is nothing to copy. Run `/mcp`, select **intamos**, and sign
+in in the browser — or run `claude mcp login intamos` (`--no-browser` over
+SSH prints a URL to open elsewhere and asks you to paste the redirect back).
+Headless `claude -p` runs cannot sign in; log in once from an interactive
+session first. `claude mcp logout intamos` clears the connection on this
+machine (see **Revoke** below for ending it everywhere).
 
 Updates: a change to this plugin ships as a version bump in `plugin.json` (and
 the matching entry in `marketplace.json`); `/plugin update intamos@intamos`
 picks it up.
 
-## What the token grants
+## What a connection grants
 
-A token is bound to **you, in one team**, and capped by the scopes you chose:
+A connection is bound to **you, in one team**, and capped by the scopes it was
+authorized with:
 
 | Scope | What Claude can do |
 | --- | --- |
@@ -36,19 +47,28 @@ A token is bound to **you, in one team**, and capped by the scopes you chose:
 | `write` | Create and update records, move deals, schedule appointments, start prospect searches (paid) |
 | `admin` | Delete records, invite people, switch modules on and off |
 
-Your role in the team is enforced on every call — a token never grants more
-than you can do in the app. Every write asks you first in Claude Code, and lands
-in the workspace's activity timeline as "via Claude".
+Signing in requests `read write`; `admin` is only available on a connector
+token (see below). Your role in the team is enforced on every call — a
+connection never grants more than you can do in the app. Every write asks you
+first in Claude Code, and lands in the workspace's activity timeline as "via
+Claude".
 
 ## Revoke
 
-Open <https://intamos.com/workspace/settings/claude> and revoke the connection.
-The next call from Claude Code is refused. Mint a new token any time.
+`claude mcp logout intamos` forgets the sign-in on **this machine** — it clears
+the stored credentials locally and revokes nothing server-side, so a token
+already issued keeps working until it expires.
 
-## Without the plugin
+To end the connection **everywhere**, revoke it from the Connect page at
+<https://intamos.com/workspace/settings/claude>: that kills the grant and every
+token issued under it immediately, which is what you want if a laptop is lost or
+a machine is no longer yours. Sign in again, or mint a new token, any time.
 
-If you would rather not have the plugin own the connection, do not install the
-plugin's server twice — connect the server directly instead:
+## Scripts and headless runs
+
+A headless `claude -p` run or a script cannot sign in interactively. Mint a
+connector token at <https://intamos.com/workspace/settings/claude> instead,
+and connect with it directly:
 
 ```
 claude mcp add --transport http intamos https://intamos.com/api/mcp --header "Authorization: Bearer $INTAMOS_MCP_TOKEN"

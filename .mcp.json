@@ -3,7 +3,7 @@
     "intamos": {
       "type": "http",
       "url": "https://intamos.com/api/mcp",
-      "headers": { "Authorization": "Bearer ${user_config.intamos_mcp_token}" }
+      "oauth": { "scopes": "read write" }
     }
   }
 }

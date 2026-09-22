@@ -7,7 +7,7 @@
     {
       "name": "intamos",
       "description": "Your intamos CRM inside Claude Code: Maggie as a subagent, three workflow skills, and the intamos connector.",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "author": { "name": "intamos", "url": "https://intamos.com" },
       "homepage": "https://intamos.com/workspace/settings/claude",
       "repository": "https://github.com/C-Creators/intamos-claude",
